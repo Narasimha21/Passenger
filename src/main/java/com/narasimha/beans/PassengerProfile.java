@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "passenger")
@@ -17,16 +19,19 @@ public class PassengerProfile implements Serializable {
 		 * 
 		 */
 	private static final long serialVersionUID = -9006155852019173569L;
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="profile_id")
-	private int profile_id;
+
 	private String password;
 	private String first_name;
 	private String last_name;
 	private String address;
 	private long tel_no;
 	private String email;
+	@OneToOne(mappedBy = "passenger")
+	private CreditCardDetails credit;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int profile_id;
 
 	public int getProfile_id() {
 		return profile_id;
@@ -34,6 +39,14 @@ public class PassengerProfile implements Serializable {
 
 	public void setProfile_id(int profile_id) {
 		this.profile_id = profile_id;
+	}
+
+	public CreditCardDetails getCredit() {
+		return credit;
+	}
+
+	public void setCredit(CreditCardDetails credit) {
+		this.credit = credit;
 	}
 
 	public String getPassword() {

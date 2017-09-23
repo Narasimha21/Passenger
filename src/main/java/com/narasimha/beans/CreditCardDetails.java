@@ -2,11 +2,14 @@ package com.narasimha.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,20 +17,32 @@ import javax.persistence.Table;
 public class CreditCardDetails implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int profile_id;
+	private int id;
 	private long card_number;
 	private String card_type;
 	private int expiration_month;
 	private int expiration_year;
+	
+	private PassengerProfile passenger;
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="profile_id")
-	public int getProfile_id() {
-		return profile_id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	public int getId() {
+		return id;
+	}
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id" )
+	public PassengerProfile getPassenger() {
+		return passenger;
 	}
 
-	public void setProfile_id(int profile_id) {
-		this.profile_id = profile_id;
+	public  void setPassenger(PassengerProfile passenger) {
+		this.passenger = passenger;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public long getCard_number() {
@@ -60,43 +75,6 @@ public class CreditCardDetails implements Serializable {
 
 	public void setExpiration_year(int expiration_year) {
 		this.expiration_year = expiration_year;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (card_number ^ (card_number >>> 32));
-		result = prime * result + ((card_type == null) ? 0 : card_type.hashCode());
-		result = prime * result + expiration_month;
-		result = prime * result + expiration_year;
-		result = prime * result + profile_id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CreditCardDetails other = (CreditCardDetails) obj;
-		if (card_number != other.card_number)
-			return false;
-		if (card_type == null) {
-			if (other.card_type != null)
-				return false;
-		} else if (!card_type.equals(other.card_type))
-			return false;
-		if (expiration_month != other.expiration_month)
-			return false;
-		if (expiration_year != other.expiration_year)
-			return false;
-		if (profile_id != other.profile_id)
-			return false;
-		return true;
 	}
 
 }
